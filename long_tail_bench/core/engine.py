@@ -181,7 +181,8 @@ class Engine(object):
         args_cases,
         np_args_generator=None,
     ):
-        args = executer.generate_args(args_cases[0], [False]*9, np_args_generator)
+        # args = executer.generate_args(args_cases[0], [False]*9, np_args_generator) # conv2d
+        args = executer.generate_args(args_cases[0], [False]*8, np_args_generator) # cross_entropy
         return [
             executer.clone_func_args(args)
         ]
@@ -200,7 +201,7 @@ class Engine(object):
         # warmup
         self.warmup(executer, sample_config, np_args_generator)
 
-        # # performance for all shapes
+        # performance for all shapes
         # samples_perf, samples_torch_profile = self.performance_all(
         #     executer, sample_config, case_name, np_args_generator
         # )  # noqa
@@ -278,7 +279,7 @@ class Engine(object):
         iters = 100
         self.case_elapsedtime.append("running_time")
         for i in range(len(sample_config.args_cases)):
-            # print("------ ", i, " ", sample_config.args_cases[i])
+            print("------ ", i, " ", sample_config.args_cases[i])
             item = self.new_make_data(executer, 
                 [sample_config.args_cases[i]], 
                 np_args_generator=np_args_generator)[0]
@@ -292,12 +293,12 @@ class Engine(object):
             time_cost = time.time() - time_start
             self.case_elapsedtime.append(time_cost/iters)
 
-        print("len==== ", len(self.case_elapsedtime))
         # print(self.case_elapsedtime)
 
-        with open("/mnt/lustre/jianglijuan/benchmark/parameter/extract_info_script/conv2d_top10.csv") as readCSV:
+        # with open("/home/miracle/parameter/extract_info_script/conv2d_top3.csv") as readCSV:
+        with open("./long_tail_bench/samples/basic/cross_entropy/report_cross_entropy.csv") as readCSV:
             rows = csv.reader(readCSV)
-            with open("conv2d_top10.csv", "w") as writeCSV:
+            with open("cross_entropy_report.csv", "w") as writeCSV:
                 writer = csv.writer(writeCSV)
                 # row = rows[0]
                 # row.append("running_time")

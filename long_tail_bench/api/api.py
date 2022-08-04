@@ -160,6 +160,7 @@ def main():
         args.cases, args.stages, args.show_sample_config,
         args.parrots_exec_mode
     )
+    print("finished")
 
 
 if __name__ == "__main__":
